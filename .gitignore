@@ -1,0 +1,18 @@
+# Secrets
+.env
+*.secret
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Node
+node_modules/
+
+# Presentation build artifacts
+*.pdf
+slide-*.jpg

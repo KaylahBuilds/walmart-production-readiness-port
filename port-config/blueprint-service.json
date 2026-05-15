@@ -1,0 +1,86 @@
+{
+  "identifier": "service",
+  "title": "Service",
+  "icon": "Microservice",
+  "schema": {
+    "properties": {
+      "url": {
+        "type": "string",
+        "title": "Repository URL",
+        "format": "url"
+      },
+      "language": {
+        "type": "string",
+        "title": "Language",
+        "enum": ["Python", "Java", "Go", "Node.js", "TypeScript", ".NET"]
+      },
+      "lifecycle": {
+        "type": "string",
+        "title": "Lifecycle",
+        "enum": ["Development", "Staging", "Production", "Deprecated"],
+        "enumColors": {
+          "Development": "blue",
+          "Staging": "orange",
+          "Production": "green",
+          "Deprecated": "red"
+        }
+      },
+      "hub": {
+        "type": "string",
+        "title": "Hub",
+        "enum": [
+          "US-Bentonville",
+          "US-Sunnyvale",
+          "India-Bangalore",
+          "Mexico-CDMX",
+          "Chile-Santiago",
+          "China-Shenzhen",
+          "UK-London",
+          "Canada-Toronto",
+          "Israel-TLV",
+          "Costa Rica-SJ"
+        ]
+      },
+      "hasReadme": {
+        "type": "boolean",
+        "title": "Has README"
+      },
+      "hasCICD": {
+        "type": "boolean",
+        "title": "Has CI/CD Pipeline"
+      },
+      "hasMonitoring": {
+        "type": "boolean",
+        "title": "Has Monitoring (Datadog)"
+      },
+      "hasRunbook": {
+        "type": "boolean",
+        "title": "Has Runbook"
+      },
+      "hasOwner": {
+        "type": "boolean",
+        "title": "Has Owner (CODEOWNERS)"
+      },
+      "criticalVulns": {
+        "type": "number",
+        "title": "Critical Vulnerabilities"
+      },
+      "reviewRequested": {
+        "type": "boolean",
+        "title": "Review Requested"
+      },
+      "targetLevel": {
+        "type": "string",
+        "title": "Target Level",
+        "enum": ["Bronze", "Silver", "Gold"]
+      },
+      "reviewNotes": {
+        "type": "string",
+        "title": "Review Notes"
+      }
+    },
+    "required": []
+  },
+  "calculationProperties": {},
+  "relations": {}
+}

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Production Readiness Workflow — Current vs Proposed</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #F8FAFC; color: #1E293B; }
+
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 28px;
+    color: #0F172A;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 16px;
+    color: #64748B;
+    margin-bottom: 40px;
+  }
+
+  .flows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .flow {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+
+  .flow-header {
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .flow-current .flow-header {
+    background: #FEF2F2;
+    color: #DC2626;
+    border: 2px solid #FECACA;
+  }
+
+  .flow-proposed .flow-header {
+    background: #EFF6FF;
+    color: #2563EB;
+    border: 2px solid #BFDBFE;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 6px;
+    position: relative;
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: #FFF;
+    position: relative;
+    z-index: 2;
+  }
+
+  .flow-current .step-num { background: #F59E0B; }
+  .flow-current .step:nth-child(n+6) .step-num { background: #EF4444; }
+  .flow-proposed .step-num { background: #3B82F6; }
+
+  .step-content {
+    flex: 1;
+    padding: 8px 14px;
+    background: #F8FAFC;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+    min-height: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .flow-current .step-content { border-left-color: #FCD34D; }
+  .flow-current .step:nth-child(n+6) .step-content { border-left-color: #FCA5A5; }
+  .flow-proposed .step-content { border-left-color: #93C5FD; }
+
+  .step-title {
+    font-weight: 600;
+    font-size: 13px;
+    color: #1E293B;
+    margin-bottom: 2px;
+  }
+
+  .step-detail {
+    font-size: 11.5px;
+    color: #64748B;
+  }
+
+  .step-actor {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+  }
+
+  .actor-dev { background: #DBEAFE; color: #1D4ED8; }
+  .actor-lead { background: #FEF3C7; color: #92400E; }
+  .actor-platform { background: #E0E7FF; color: #3730A3; }
+  .actor-auto { background: #D1FAE5; color: #065F46; }
+  .actor-port { background: #EDE9FE; color: #5B21B6; }
+
+  .connector {
+    width: 2px;
+    height: 16px;
+    margin-left: 15px;
+    margin-bottom: 6px;
+  }
+
+  .flow-current .connector { background: #FCD34D; }
+  .flow-proposed .connector { background: #93C5FD; }
+
+  .callout {
+    margin-top: 20px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .callout-bad {
+    background: #FEF2F2;
+    color: #DC2626;
+    border: 1px solid #FECACA;
+  }
+
+  .callout-good {
+    background: #ECFDF5;
+    color: #059669;
+    border: 1px solid #A7F3D0;
+  }
+
+  .tools-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .tool-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: #F1F5F9;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #64748B;
+  }
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  @media print {
+    body { background: #FFF; }
+    .page { padding: 20px; }
+    .flows { gap: 20px; }
+    .flow { box-shadow: none; border: 1px solid #E2E8F0; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>Production Readiness Workflow</h1>
+  <p class="subtitle">Current State vs. Proposed State with Port &mdash; Walmart (12,000 Developers, 10 Global Hubs)</p>
+
+  <div class="flows">
+    <!-- CURRENT STATE -->
+    <div class="flow flow-current">
+      <div class="flow-header">Current State: Manual &amp; Inconsistent</div>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Developer Completes Feature</div>
+          <div class="step-detail">Asks team lead: "Are we production ready?"</div>
+          <span class="step-actor actor-dev">Developer</span>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Team Lead Checks Local Wiki</div>
+          <div class="step-detail">References hub-specific checklist (varies by location)</div>
+          <span class="step-actor actor-lead">Team Lead</span>
+          <div class="tools-row">
+            <span class="tool-tag">Confluence</span>
+            <span class="tool-tag">Google Docs</span>
+            <span class="tool-tag">Notion</span>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Manual Review</div>
+          <div class="step-detail">Check monitoring, docs, security scans ad hoc across multiple tools</div>
+          <span class="step-actor actor-platform">Platform Team</span>
+          <div class="tools-row">
+            <span class="tool-tag">Datadog</span>
+            <span class="tool-tag">Snyk</span>
+            <span class="tool-tag">GitHub</span>
+            <span class="tool-tag">Jira</span>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Subjective Approval</div>
+          <div class="step-detail">Outcome depends on who reviews and when — no standard bar</div>
+          <span class="step-actor actor-lead">Team Lead</span>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Deploy to Production</div>
+          <div class="step-detail">Gaps discovered via incidents (missing monitoring, no runbook, etc.)</div>
+          <span class="step-actor actor-dev">Developer</span>
+          <div class="tools-row">
+            <span class="tool-tag">CI/CD</span>
+            <span class="tool-tag">K8s</span>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <div class="step-title">Retrospective &amp; Ad Hoc Fixes</div>
+          <div class="step-detail">Standards updated reactively after incidents — cycle repeats</div>
+          <span class="step-actor actor-platform">Platform Team</span>
+        </div>
+      </div>
+
+      <div class="callout callout-bad">
+        No single source of truth &bull; No automation &bull; No enforcement
+      </div>
+    </div>
+
+    <!-- PROPOSED STATE -->
+    <div class="flow flow-proposed">
+      <div class="flow-header">Proposed State: Automated with Port</div>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Services Auto-Ingested</div>
+          <div class="step-detail">GitHub integration syncs all repos into Port's software catalog</div>
+          <span class="step-actor actor-auto">Automated</span>
+          <div class="tools-row">
+            <span class="tool-tag">GitHub</span>
+            <span class="tool-tag">Port Catalog</span>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Scorecard Evaluates Continuously</div>
+          <div class="step-detail">Production Readiness scorecard checks Bronze / Silver / Gold rules 24/7</div>
+          <span class="step-actor actor-port">Port Scorecard</span>
+          <div class="tools-row">
+            <span class="tool-tag">Port</span>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Developer Sees Score in Real-Time</div>
+          <div class="step-detail">Clear gaps with actionable next steps — no guessing</div>
+          <span class="step-actor actor-dev">Developer</span>
+          <div class="tools-row">
+            <span class="tool-tag">Port UI</span>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Self-Service: Fix Gaps or Request Review</div>
+          <div class="step-detail">Developer triggers action — no waiting on platform team</div>
+          <span class="step-actor actor-dev">Developer</span>
+          <div class="tools-row">
+            <span class="tool-tag">Port Action</span>
+            <span class="tool-tag">Jira</span>
+            <span class="tool-tag">Slack</span>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Leadership Gets Dashboards</div>
+          <div class="step-detail">Org-wide visibility by team, hub, and scorecard tier</div>
+          <span class="step-actor actor-port">Port Dashboard</span>
+          <div class="tools-row">
+            <span class="tool-tag">Port</span>
+          </div>
+        </div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <div class="step-title">Enforce Standards via CI/CD</div>
+          <div class="step-detail">Pipeline checks scorecard level — no deployment below Bronze</div>
+          <span class="step-actor actor-auto">Automated</span>
+          <div class="tools-row">
+            <span class="tool-tag">GitHub Actions</span>
+            <span class="tool-tag">Port API</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-good">
+        Single source of truth &bull; Automated evaluation &bull; Developer autonomy
+      </div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#DBEAFE"></div> Developer</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FEF3C7"></div> Team Lead</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#E0E7FF"></div> Platform Team</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#D1FAE5"></div> Automated</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#EDE9FE"></div> Port</div>
+  </div>
+</div>
+</body>
+</html>

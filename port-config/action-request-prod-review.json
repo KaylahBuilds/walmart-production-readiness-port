@@ -1,0 +1,37 @@
+{
+  "identifier": "request_prod_review",
+  "title": "Request Production Readiness Review",
+  "trigger": {
+    "type": "self-service",
+    "operation": "DAY-2",
+    "blueprintIdentifier": "service",
+    "userInputs": {
+      "properties": {
+        "targetLevel": {
+          "type": "string",
+          "title": "Target Level",
+          "enum": ["Bronze", "Silver", "Gold"],
+          "description": "The production readiness level you are targeting"
+        },
+        "notes": {
+          "type": "string",
+          "title": "Notes",
+          "description": "Any additional context for the review"
+        }
+      },
+      "required": ["targetLevel"]
+    }
+  },
+  "invocationMethod": {
+    "type": "UPSERT_ENTITY",
+    "blueprintIdentifier": "service",
+    "mapping": {
+      "identifier": "{{ .entity.identifier }}",
+      "properties": {
+        "reviewRequested": true,
+        "targetLevel": "{{ .inputs.targetLevel }}",
+        "reviewNotes": "{{ .inputs.notes }}"
+      }
+    }
+  }
+}

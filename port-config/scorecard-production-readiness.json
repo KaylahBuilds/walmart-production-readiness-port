@@ -1,0 +1,96 @@
+{
+  "identifier": "productionReadiness",
+  "title": "Production Readiness",
+  "rules": [
+    {
+      "identifier": "hasReadme",
+      "title": "Has README Documentation",
+      "level": "Bronze",
+      "query": {
+        "combinator": "and",
+        "conditions": [
+          {
+            "operator": "=",
+            "property": "hasReadme",
+            "value": true
+          }
+        ]
+      }
+    },
+    {
+      "identifier": "hasCICD",
+      "title": "Has CI/CD Pipeline",
+      "level": "Bronze",
+      "query": {
+        "combinator": "and",
+        "conditions": [
+          {
+            "operator": "=",
+            "property": "hasCICD",
+            "value": true
+          }
+        ]
+      }
+    },
+    {
+      "identifier": "hasMonitoring",
+      "title": "Has Monitoring (Datadog)",
+      "level": "Silver",
+      "query": {
+        "combinator": "and",
+        "conditions": [
+          {
+            "operator": "=",
+            "property": "hasMonitoring",
+            "value": true
+          }
+        ]
+      }
+    },
+    {
+      "identifier": "noVulns",
+      "title": "No Critical Vulnerabilities",
+      "level": "Silver",
+      "query": {
+        "combinator": "and",
+        "conditions": [
+          {
+            "operator": "<=",
+            "property": "criticalVulns",
+            "value": 0
+          }
+        ]
+      }
+    },
+    {
+      "identifier": "hasRunbook",
+      "title": "Has On-Call Runbook",
+      "level": "Gold",
+      "query": {
+        "combinator": "and",
+        "conditions": [
+          {
+            "operator": "=",
+            "property": "hasRunbook",
+            "value": true
+          }
+        ]
+      }
+    },
+    {
+      "identifier": "hasOwner",
+      "title": "Has Designated Owner",
+      "level": "Gold",
+      "query": {
+        "combinator": "and",
+        "conditions": [
+          {
+            "operator": "=",
+            "property": "hasOwner",
+            "value": true
+          }
+        ]
+      }
+    }
+  ]
+}
