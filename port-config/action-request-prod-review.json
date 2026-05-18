@@ -1,6 +1,7 @@
 {
   "identifier": "request_prod_review",
   "title": "Request Production Readiness Review",
+  "description": "Request a production readiness review for your service. Updates the service entity and notifies the platform team.",
   "trigger": {
     "type": "self-service",
     "operation": "DAY-2",
@@ -10,16 +11,22 @@
         "targetLevel": {
           "type": "string",
           "title": "Target Level",
-          "enum": ["Bronze", "Silver", "Gold"],
-          "description": "The production readiness level you are targeting"
+          "description": "The production readiness level you are targeting",
+          "enum": [
+            "Bronze",
+            "Silver",
+            "Gold"
+          ]
         },
         "notes": {
           "type": "string",
           "title": "Notes",
-          "description": "Any additional context for the review"
+          "description": "Any additional context for the platform team reviewing your service"
         }
       },
-      "required": ["targetLevel"]
+      "required": [
+        "targetLevel"
+      ]
     }
   },
   "invocationMethod": {

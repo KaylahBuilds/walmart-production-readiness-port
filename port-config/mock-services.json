@@ -1,0 +1,66 @@
+[
+  {
+    "identifier": "checkout-service",
+    "title": "Checkout Service",
+    "properties": {
+      "criticality": "Mission Critical",
+      "hub": "US-Bentonville",
+      "hasMonitoring": true,
+      "hasRunbook": true,
+      "criticalVulns": 0,
+      "reviewRequested": false
+    },
+    "expectedLevel": "Gold (if README, CODEOWNERS, and other default rules also pass)"
+  },
+  {
+    "identifier": "inventory-api",
+    "title": "Inventory API",
+    "properties": {
+      "criticality": "Business Critical",
+      "hub": "India-Bangalore",
+      "hasMonitoring": true,
+      "hasRunbook": false,
+      "criticalVulns": 0,
+      "reviewRequested": false
+    },
+    "expectedLevel": "Silver (missing runbook blocks Gold)"
+  },
+  {
+    "identifier": "payment-gateway",
+    "title": "Payment Gateway",
+    "properties": {
+      "criticality": "Mission Critical",
+      "hub": "US-Sunnyvale",
+      "hasMonitoring": false,
+      "hasRunbook": false,
+      "criticalVulns": 3,
+      "reviewRequested": false
+    },
+    "expectedLevel": "Bronze (no monitoring + vulns block Silver)"
+  },
+  {
+    "identifier": "user-auth",
+    "title": "User Auth Service",
+    "properties": {
+      "criticality": "Business Critical",
+      "hub": "Mexico-CDMX",
+      "hasMonitoring": false,
+      "hasRunbook": false,
+      "criticalVulns": 5,
+      "reviewRequested": false
+    },
+    "expectedLevel": "Basic (missing multiple requirements)"
+  },
+  {
+    "identifier": "search-service",
+    "title": "Search Service",
+    "properties": {
+      "hub": "Chile-Santiago",
+      "hasMonitoring": false,
+      "hasRunbook": false,
+      "criticalVulns": 0,
+      "reviewRequested": false
+    },
+    "expectedLevel": "Basic (no criticality, missing requirements)"
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "comment": "Add these 3 rules to the EXISTING Production Readiness scorecard in Port. Go to Manage Scorecards > Production Readiness > Edit, and add each rule below.",
+
+  "rules": [
+    {
+      "identifier": "hasMonitoring",
+      "title": "Has Monitoring (Datadog)",
+      "level": "Silver",
+      "query": {
+        "combinator": "and",
+        "conditions": [
+          {
+            "operator": "=",
+            "property": "hasMonitoring",
+            "value": true
+          }
+        ]
+      }
+    },
+    {
+      "identifier": "noVulns",
+      "title": "No Critical Vulnerabilities (Snyk)",
+      "level": "Silver",
+      "query": {
+        "combinator": "and",
+        "conditions": [
+          {
+            "operator": "<=",
+            "property": "criticalVulns",
+            "value": 0
+          }
+        ]
+      }
+    },
+    {
+      "identifier": "hasRunbook",
+      "title": "Has On-Call Runbook",
+      "level": "Gold",
+      "query": {
+        "combinator": "and",
+        "conditions": [
+          {
+            "operator": "=",
+            "property": "hasRunbook",
+            "value": true
+          }
+        ]
+      }
+    }
+  ]
+}

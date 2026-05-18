@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
-# Seed Port with 6 demo services for the Walmart Production Readiness demo.
-# Usage: export PORT_CLIENT_ID="..." PORT_CLIENT_SECRET="..." && ./scripts/seed-mock-data.sh
+# Seed Port with 5 additional Walmart demo services + update the existing walmart service.
+# Works with Port's DEFAULT Service blueprint (adds custom properties only).
+#
+# Usage:
+#   export PORT_CLIENT_ID="your-client-id"
+#   export PORT_CLIENT_SECRET="your-client-secret"
+#   ./scripts/seed-mock-data.sh
 
 set -euo pipefail
 
@@ -30,130 +35,98 @@ create_entity() {
 }
 
 echo ""
-echo "==> Creating 6 demo services..."
+echo "==> Updating existing walmart service..."
 echo ""
 
-# 1. checkout-service — GOLD
+create_entity "walmart (update)" '{
+  "identifier": "walmart",
+  "title": "walmart",
+  "properties": {
+    "hub": "US-Bentonville",
+    "hasMonitoring": true,
+    "hasRunbook": true,
+    "criticalVulns": 0,
+    "reviewRequested": false
+  }
+}'
+
+echo ""
+echo "==> Creating 5 Walmart demo services..."
+echo ""
+
+# 1. Checkout Service — targets GOLD
 create_entity "checkout-service" '{
   "identifier": "checkout-service",
   "title": "Checkout Service",
   "properties": {
-    "language": "Java",
-    "url": "https://github.com/walmart/checkout-service",
-    "lifecycle": "Production",
     "hub": "US-Bentonville",
-    "hasReadme": true,
-    "hasCICD": true,
     "hasMonitoring": true,
     "hasRunbook": true,
-    "hasOwner": true,
     "criticalVulns": 0,
     "reviewRequested": false
   }
 }'
 
-# 2. inventory-api — SILVER
+# 2. Inventory API — targets SILVER
 create_entity "inventory-api" '{
   "identifier": "inventory-api",
   "title": "Inventory API",
   "properties": {
-    "language": "Go",
-    "url": "https://github.com/walmart/inventory-api",
-    "lifecycle": "Production",
     "hub": "India-Bangalore",
-    "hasReadme": true,
-    "hasCICD": true,
     "hasMonitoring": true,
     "hasRunbook": false,
-    "hasOwner": true,
     "criticalVulns": 0,
     "reviewRequested": false
   }
 }'
 
-# 3. notification-worker — SILVER
-create_entity "notification-worker" '{
-  "identifier": "notification-worker",
-  "title": "Notification Worker",
-  "properties": {
-    "language": ".NET",
-    "url": "https://github.com/walmart/notification-worker",
-    "lifecycle": "Production",
-    "hub": "UK-London",
-    "hasReadme": true,
-    "hasCICD": true,
-    "hasMonitoring": true,
-    "hasRunbook": true,
-    "hasOwner": false,
-    "criticalVulns": 0,
-    "reviewRequested": false
-  }
-}'
-
-# 4. payment-gateway — BRONZE
+# 3. Payment Gateway — targets BRONZE
 create_entity "payment-gateway" '{
   "identifier": "payment-gateway",
   "title": "Payment Gateway",
   "properties": {
-    "language": "Node.js",
-    "url": "https://github.com/walmart/payment-gateway",
-    "lifecycle": "Production",
     "hub": "US-Sunnyvale",
-    "hasReadme": true,
-    "hasCICD": true,
     "hasMonitoring": false,
     "hasRunbook": false,
-    "hasOwner": false,
-    "criticalVulns": 2,
+    "criticalVulns": 3,
     "reviewRequested": false
   }
 }'
 
-# 5. user-auth — BASIC
+# 4. User Auth — targets BASIC
 create_entity "user-auth" '{
   "identifier": "user-auth",
   "title": "User Auth Service",
   "properties": {
-    "language": "Python",
-    "url": "https://github.com/walmart/user-auth",
-    "lifecycle": "Production",
     "hub": "Mexico-CDMX",
-    "hasReadme": true,
-    "hasCICD": false,
     "hasMonitoring": false,
     "hasRunbook": false,
-    "hasOwner": false,
     "criticalVulns": 5,
     "reviewRequested": false
   }
 }'
 
-# 6. search-service — BASIC
+# 5. Search Service — targets BASIC
 create_entity "search-service" '{
   "identifier": "search-service",
   "title": "Search Service",
   "properties": {
-    "language": "TypeScript",
-    "url": "https://github.com/walmart/search-service",
-    "lifecycle": "Development",
     "hub": "Chile-Santiago",
-    "hasReadme": false,
-    "hasCICD": false,
     "hasMonitoring": false,
     "hasRunbook": false,
-    "hasOwner": false,
     "criticalVulns": 0,
     "reviewRequested": false
   }
 }'
 
 echo ""
-echo "==> Done! Expected scorecard levels:"
-echo "    checkout-service     Gold"
-echo "    inventory-api        Silver"
-echo "    notification-worker  Silver"
-echo "    payment-gateway      Bronze"
-echo "    user-auth            Basic"
-echo "    search-service       Basic"
+echo "==> Done! Expected scorecard levels (with custom rules):"
+echo ""
+echo "    walmart              Gold   (if default rules also pass)"
+echo "    checkout-service     Gold   (if default rules also pass)"
+echo "    inventory-api        Silver (missing runbook)"
+echo "    payment-gateway      Bronze (no monitoring + has vulns)"
+echo "    user-auth            Basic  (no monitoring + has vulns)"
+echo "    search-service       Basic  (missing most requirements)"
 echo ""
 echo "    Verify at: https://app.getport.io"

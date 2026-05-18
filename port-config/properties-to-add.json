@@ -1,0 +1,65 @@
+[
+  {
+    "identifier": "hub",
+    "title": "Hub",
+    "type": "string",
+    "description": "The global engineering hub this service belongs to",
+    "enum": [
+      "US-Bentonville",
+      "US-Sunnyvale",
+      "India-Bangalore",
+      "Mexico-CDMX",
+      "Chile-Santiago",
+      "UK-London"
+    ],
+    "enumColors": {
+      "US-Bentonville": "blue",
+      "US-Sunnyvale": "turquoise",
+      "India-Bangalore": "orange",
+      "Mexico-CDMX": "green",
+      "Chile-Santiago": "purple",
+      "UK-London": "red"
+    }
+  },
+  {
+    "identifier": "hasMonitoring",
+    "title": "Has Monitoring (Datadog)",
+    "type": "boolean",
+    "description": "Whether Datadog monitoring and alerting is configured for this service"
+  },
+  {
+    "identifier": "hasRunbook",
+    "title": "Has Runbook",
+    "type": "boolean",
+    "description": "Whether an on-call runbook is documented for incident response"
+  },
+  {
+    "identifier": "criticalVulns",
+    "title": "Critical Vulnerabilities",
+    "type": "number",
+    "description": "Number of critical vulnerabilities reported by Snyk"
+  },
+  {
+    "identifier": "reviewRequested",
+    "title": "Review Requested",
+    "type": "boolean",
+    "description": "Whether a production readiness review has been requested via self-service"
+  },
+  {
+    "identifier": "targetLevel",
+    "title": "Target Level",
+    "type": "string",
+    "description": "The scorecard level the developer is targeting for their review",
+    "enum": [
+      "Bronze",
+      "Silver",
+      "Gold"
+    ]
+  },
+  {
+    "identifier": "reviewNotes",
+    "title": "Review Notes",
+    "type": "string",
+    "description": "Free-text context provided by the developer when requesting a review"
+  }
+]
