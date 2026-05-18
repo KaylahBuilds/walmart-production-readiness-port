@@ -1,240 +1,401 @@
 # Speaker Notes & Talking Points
 
-## Walmart Production Readiness — Port Presentation
+## Walmart Production Readiness — Port Presentation (14 slides)
+
+Total runtime: ~30 minutes presentation + 10 min live demo + Q&A
 
 ---
 
 ## Slide 1: Title (30 seconds)
 
-> "Good [morning/afternoon]. Today I'm going to walk you through how Port can help Walmart standardize production readiness across 12,000 developers and 10 global engineering hubs. This is a real pain point at scale — and I'll show you a working prototype that demonstrates the approach."
+> "Good [morning/afternoon]. Today I'm going to walk you through how Port can help Walmart standardize production readiness across 12,000 developers and 10 global engineering hubs.
+>
+> This is a real, high-stakes pain point at Walmart's scale — and I'll show you a working prototype I built in Port that demonstrates the approach.
+>
+> Quick agenda: Platform Engineering and DevEx, the specific Walmart use case, current vs. proposed workflow, then a live demo of the Port environment, and we'll close with expected business outcomes."
+
+**Delivery tips:**
+- Speak slowly and confidently
+- Make eye contact across the room
+- Don't rush
 
 ---
 
-## Slide 2: Platform Engineering & DevEx (5 minutes)
+## Slide 2: Platform Engineering & DevEx (5 min)
 
-> "Before diving into the specific use case, let's align on what platform engineering is and why it matters."
+> "Before diving into the specific use case, let's align on what platform engineering actually is and why it matters at scale."
 
-**Key points to hit:**
-
-- **Platform Engineering** is about building internal golden paths — paved roads that let developers ship faster while staying within guardrails. It's not about gatekeeping; it's about making the right thing the easy thing.
-- **Internal Developer Portals** like Port are the interface layer. They give developers one place to see their services, understand ownership, check compliance status, and take actions — instead of bouncing between 10 different tools.
-- **Developer Experience** is the metric we're optimizing. Can a developer discover what they need, build confidently, deploy safely, and operate effectively? If any of those steps are painful, velocity drops.
-- **The business impact is real**: Gartner research shows organizations with mature platform engineering see significantly faster lead times and fewer production incidents.
+**Key points:**
+- **Platform Engineering** = building internal golden paths. Paved roads that let developers ship faster with built-in guardrails — not gatekeepers.
+- **Internal Developer Portals** like Port are the interface layer. One place for services, ownership, standards, actions — instead of 10 disjointed tools.
+- **Developer Experience** is the metric we're optimizing. Can a developer discover, build, deploy, operate easily?
+- **Gartner**: orgs with mature platform engineering see 30% faster lead time and 60% fewer incidents.
 
 **Transition:** "So with that context, let's look at the specific problem Walmart faces."
 
 ---
 
-## Slide 3: The Problem (3 minutes)
+## Slide 3: The Problem (3 min)
 
 > "Walmart is one of the largest engineering organizations in the world. 12,000 developers across 10 global hubs — from Bentonville to Bangalore to Santiago."
 
-**Key points to hit:**
-
-- Each hub has organically evolved its own standards. What "production ready" means in Sunnyvale might be completely different from what it means in Bangalore.
-- There's no centralized visibility. If you're a VP of Engineering asking "how production-ready are we?" — nobody can answer that question confidently.
-- The impact is tangible: incidents spike during the moments that matter most — Black Friday, Holiday Season. MTTR varies wildly across hubs.
-- Platform teams are drowning — spending 40%+ of their time on manual reviews that don't scale.
+**Key points:**
+- Each hub has organically evolved its own standards
+- No centralized visibility — VP can't answer "how prod-ready are we?"
+- Incidents spike during Black Friday and holiday peaks
+- MTTR varies 3-5× across hubs
+- Platform team spends 40%+ of time on manual reviews
 
 **Transition:** "Let's look at who specifically feels this pain."
 
 ---
 
-## Slide 4: Stakeholders (2 minutes)
+## Slide 4: Stakeholders (2 min)
 
 > "This isn't just a platform team problem — it touches every layer of the organization."
 
-**Key points to hit:**
+**Walk through each role quickly:**
 
-- Walk through each stakeholder quickly — the point is to show this is an org-wide problem, not a niche concern.
-- Emphasize the developer perspective: they genuinely don't know what's expected of them. Different hubs, different checklists, different reviewers.
-- The VP/leadership angle is important for business value: they have zero visibility into readiness posture.
+| Role | Pain Point |
+|------|-----------|
+| Developers | Don't know what's expected — different hubs, different checklists |
+| Team Leads | Subjective enforcement — not trained reviewers but the gatekeepers |
+| Platform Engineers | Bottleneck — 50 engineers can't review services for 12,000 devs |
+| VP Engineering | Zero visibility — can't answer board-level questions |
+| SREs / On-Call | Paged at 3am for services that shouldn't have shipped |
 
 **Transition:** "And when you look at the numbers, the business case makes itself."
 
 ---
 
-## Slide 5: Business Case (2 minutes)
+## Slide 5: Business Case (2 min)
 
-> "Let me put some numbers to this."
+> "Let me put real numbers to this."
 
-**Key points to hit:**
+**Key stats:**
+- **$13M+/hour of downtime** during peak retail events (industry estimate)
+- **40% of platform team capacity** consumed by manual reviews — reclaimable engineering time
+- **3× incident rate variation** between strong and weak standards hubs — proves standards work
+- **1% reliability improvement** = measurable revenue protection
 
-- $13M+ per hour of downtime is an industry estimate for large retailers during peak events. Even a fraction of that justifies investment in production readiness tooling.
-- 40% of platform team capacity is a huge number — that's almost half their team doing work that could be automated.
-- The 3x variation in incident rates is the killer stat: it proves that standards work when they're enforced, and the gap is massive when they're not.
-- Close with the revenue protection framing — this is a business investment, not a developer tools purchase.
+**Landing line:** "Production readiness isn't a nice-to-have. It's revenue protection. One avoided outage during Black Friday pays for the entire platform."
 
-**Transition:** "So let me show you how this process works today, and then what it looks like with Port."
-
----
-
-## Slide 6: Current State (3 minutes)
-
-> "Here's the workflow today. I want you to notice how many manual, subjective steps are involved."
-
-**Key points to hit:**
-
-- Walk through the six steps sequentially. Emphasize that at every step, there's human judgment and variability.
-- Step 2 is the critical weakness: the checklist varies by hub. There's no single standard.
-- Step 4: approval depends on *who* reviews. A senior engineer might catch issues a junior misses.
-- Step 5 is the failure mode: problems discovered in production, not before deployment.
-- Land on the callout: no single source of truth, no automation, no enforcement.
-
-**Transition:** "Now here's what this looks like with Port."
+**Transition:** "So let me show you how this process works today versus what it looks like with Port."
 
 ---
 
-## Slide 7: Proposed State (3 minutes)
+## Slide 6: From Manual to Automated (2-3 min)
 
-> "Same six steps, completely different approach."
+> "Here's the simplified side-by-side. Today on the left, Port on the right."
 
-**Key points to hit:**
+**Walk through both columns quickly:**
 
-- Step 1: services are automatically ingested — no manual catalog maintenance.
-- Step 2: the scorecard runs continuously. It's not a one-time review; it's always evaluating.
-- Step 3: developers see their own score. This is the key shift — from "ask someone" to "I can see it myself."
-- Step 4: self-service means developers fix gaps proactively, without waiting for platform team bandwidth.
-- Step 5: leadership gets dashboards — the VP can finally answer "how ready are we?"
-- Step 6: you can even enforce minimums — no deployment without Bronze.
+**Today (left, coral-bordered):**
+1. Developer asks team lead
+2. Lead checks hub-specific wiki
+3. Manual review, ad hoc tools
+4. Subjective approval
+5. Deploy → gaps in production
+6. Retrospective → ad hoc fix
 
-**Contrast with the callout:** single source of truth, automated evaluation, developer autonomy.
+**With Port (right, navy-bordered):**
+1. Auto-ingested from GitHub
+2. Scorecard evaluates 24/7
+3. Developer sees gaps in real time
+4. Self-service action requests review
+5. Dashboard shows org-wide posture
+6. CI/CD gating enforces standards
+
+**Transition:** "Now let's zoom into the detailed flow with all the actors and tools."
+
+---
+
+## Slide 7: The Workflow in Detail (3 min)
+
+> "This is the same transformation, but with actors and tools called out."
+
+**Walk through the left side (Current State):**
+- Each step shows WHO is involved and WHAT tools they touch
+- Tool sprawl: Confluence, Google Docs, Notion for checklists
+- Datadog, Snyk, GitHub, Jira for review
+- CI/CD and K8s for deploy
+- Six handoffs across multiple humans and multiple tools
+- "This is chaos at scale"
+
+**Walk through the right side (With Port):**
+- Same six conceptual steps, but actors collapse to mostly "Automated" or "Port"
+- Tool sprawl collapses: GitHub → Port → CI/CD enforcement
+- One source of truth instead of ten
+- Only steps 3 and 4 need human (developer) input
+
+**Key points to call out:**
+- Point to monitoring tool tags: "See how it lives across Datadog AND Snyk AND GitHub on the left? On the right, those signals flow INTO Port."
+- Point to the green callout: "Single source of truth, automated evaluation, developer autonomy"
+- Point to the legend: "Notice how much shifts from humans to automation"
 
 **Transition:** "Let me show you what I actually built in Port."
 
 ---
 
-## Slide 8: Solution Architecture (2 minutes)
+## Slide 8: Solution Architecture (2 min)
 
-> "Here's the architecture. Four components, all working together."
+> "Four components, all working together."
 
-**Key points to hit:**
+**Walk through each numbered card:**
 
-- **GitHub integration** pulls in the service catalog automatically. Properties like README existence, CI/CD workflows, and CODEOWNERS come straight from the repo.
-- **Scorecard** evaluates every service against Bronze/Silver/Gold criteria continuously.
-- **Self-service action** lets developers request reviews without Slack DMs or emails.
-- **Dashboard** ties it all together with an org-wide view.
+1. **GitHub Integration** — 5 microservice repos auto-synced. README, CODEOWNERS, CI workflows ingested.
+2. **Walmart Production Readiness Scorecard** — 3 custom rules across Silver and Gold tiers. Continuously evaluated.
+3. **Request Prod Review Action** — Day-2 self-service action using UPSERT_ENTITY. No backend required.
+4. **Production Readiness Dashboard** — All services, Gold path, and Needs Attention with embedded action card.
+
+**Mention:** "I created 5 actual Walmart-themed GitHub repos — checkout, inventory, payment, notification, search — each with realistic variation in README, CODEOWNERS, and CI workflow files. This is real GitHub data, not mocked."
 
 **Transition:** "Let me go deeper on the scorecard, since that's the heart of the solution."
 
 ---
 
-## Slide 9: Scorecard Deep Dive (3 minutes)
+## Slide 9: Scorecard Deep Dive (3 min)
 
-> "The scorecard has three tiers, each building on the last."
+> "The scorecard has three tiers tied directly to Walmart's stack."
 
-**Key points to hit:**
+- **BASIC** — Default. Every new service starts here. No Walmart rules passed yet.
+- **SILVER** (2 rules):
+  - **Has Monitoring (Datadog)** — Walmart's stack explicitly includes Datadog. Maps to their real tooling.
+  - **No Critical Vulnerabilities (Snyk)** — Snyk is also in Walmart's stack. Prevents incidents.
+- **GOLD** (1 rule):
+  - **Has On-Call Runbook** — Separates services that recover quickly from services with hour-long outages. Directly reduces MTTR.
 
-- **Bronze is the floor** — every service in production must have a README and CI/CD. These are non-negotiable basics.
-- **Silver adds operational maturity** — monitoring via Datadog and clean security scans via Snyk. This is where you prevent incidents.
-- **Gold is excellence** — runbooks and designated ownership. This is where you reduce MTTR when incidents *do* happen.
-- Emphasize that these rules are based on real, queryable properties — not subjective judgment.
-- Mention that the levels are customizable — Walmart could add their own criteria or adjust thresholds.
+**Emphasize:**
+- "These are based on real, queryable properties — not subjective judgment."
+- "Walmart could easily customize: data residency rules for India, GDPR rules for Europe. The model is flexible."
 
 **Transition:** "And when a developer sees they're not at their target level, here's what they can do about it."
 
 ---
 
-## Slide 10: Self-Service Action (2 minutes)
+## Slide 10: Self-Service Action (2 min)
 
-> "This is the self-service action I built. A developer clicks 'Request Prod Review' on their service in Port."
+> "Developers go to their service and click 'Request Production Readiness Review.'"
 
-**Key points to hit:**
+**Action details:**
+- **Type:** Day-2 — operates on an existing service
+- **Inputs:** Target Level (Bronze/Silver/Gold) + optional notes
 
-- It's a DAY-2 action — it operates on an existing service, not creating a new one.
-- The inputs are simple: which level are you targeting, and any notes for context.
-- In the POC, it updates the catalog directly. In production, you'd wire this to a webhook that creates a Jira ticket and sends a Slack notification.
-- The key benefit: developers get autonomy, platform teams get structured requests instead of random Slack DMs.
+**What happens:**
+- Entity updated: `reviewRequested = true`
+- `targetLevel` and `reviewNotes` stored
+- In our POC, that's enough — the catalog IS the system of record
+- In production, you'd add a webhook → Slack notification + Jira ticket
 
-**Transition:** "Let me switch to the live environment and show you this in action."
+**Key benefit:** "Developers get autonomy. Platform teams get structured requests instead of random Slack DMs."
+
+**Transition:** "Let me switch to the live environment and show you all of this in action."
 
 ---
 
 ## Slide 11: Live Demo (10 minutes)
 
-> "I'm going to walk through four things in Port: the catalog, the scorecard, the action, and the dashboard."
+> "I'm going to walk through five things in Port."
 
-**Demo script:**
+### Pre-demo checklist (do BEFORE the slide goes up)
+- Have **app.getport.io** open
+- Land on the **Walmart Production Readiness** dashboard
+- Reset `reviewRequested = false` on Search Service for clean demo
+- Have notes pane open on a second screen
 
-1. **Catalog**: "Here are our services, ingested from GitHub. You can see each one has properties like language, hub, lifecycle, and our production readiness booleans."
+### Scene 1: Catalog (2 min)
 
-2. **Gold service**: "Let's click into checkout-service. This is a Gold-level service — all rules passing. README, CI/CD, monitoring, security, runbook, and owner all present."
+> **Say:** "Let me start by showing you the Walmart service catalog."
 
-3. **Basic service**: "Now look at search-service. It's at Basic — missing almost everything. The scorecard clearly shows what's missing and what level each rule belongs to."
+1. Click **Catalog > Services**
+2. Point to column headers: Title, Owning Teams, Hub, Has Monitoring, Has Runbook, Critical Vulns
+3. Point to the variation across services
 
-4. **Trigger action**: "As a developer, I can click 'Request Production Readiness Review', select Gold as my target, add a note, and submit. Watch the entity update — reviewRequested is now true."
+> **Say:** "Notice every service has the same set of properties. Same standards across all hubs. That alone is something Walmart doesn't have today."
 
-5. **Dashboard**: "Finally, the dashboard. Here's the org-wide view — pie chart showing distribution across levels, table of services needing attention, and breakdown by hub."
+### Scene 2: Gold Service (1.5 min)
 
-**If asked questions during demo:**
+> **Say:** "Let's look at a fully production-ready service — Checkout Service."
 
-- *"Can you customize the scorecard rules?"* — Yes, rules are fully configurable. You can add, remove, or modify rules and levels.
-- *"What if we want to add more integrations?"* — Absolutely. Snyk, Datadog, K8s, Jira all have native integrations.
-- *"How does this scale to 12,000 developers?"* — Port's catalog is designed for enterprise scale. RBAC lets you scope visibility by team/hub.
+1. Click **Checkout Service**
+2. Show **Overview** tab — Hub = US-Bentonville, all green
+3. Click **Scorecards** tab
+4. Point to **Walmart Production Readiness** — all 3 rules passing
+
+> **Say:** "Three Walmart-specific rules: monitoring, no critical vulns, runbook. This service hits Gold because it passes all three. No manual review needed."
+
+### Scene 3: Basic Service (2 min)
+
+> **Say:** "Now let's look at a service that's NOT production-ready. Search Service."
+
+1. Click **Search Service**
+2. Show properties — all booleans false
+3. Click **Scorecards** tab
+4. Point to failing rules with red X marks
+
+> **Say:** "Three rules failing. Today this might deploy anyway. With Port, the gaps are visible immediately."
+
+### Scene 4: Trigger the Action (2 min)
+
+> **Say:** "Here's where developer autonomy kicks in."
+
+1. On Search Service, click **Execute action** (or click the dashboard action card)
+2. Fill the form:
+   - **Target Level:** Gold
+   - **Notes:** "Need to reach Gold before Black Friday — adding Datadog and runbook this sprint"
+3. Click **Execute**
+4. Refresh — show `reviewRequested = true`, `targetLevel = Gold`, notes saved
+
+> **Say:** "Day-2 action using UPSERT_ENTITY backend. No Lambda, no webhook. In production, this would also notify Slack and create a Jira ticket."
+
+### Scene 5: Dashboard (2 min)
+
+> **Say:** "Finally, the dashboard. VP-level visibility."
+
+1. Click **Walmart Production Readiness** in left sidebar
+2. Walk through each table:
+   - **All Walmart Services** — complete catalog with scorecard levels
+   - **Services Needing Attention** — Payment Gateway, Search Service
+   - **Production-Ready Services (Gold Path)** — Checkout, Notification Worker
+3. Point to the embedded action card
+
+> **Say:** "A VP can answer 'how production-ready are we?' in under 30 seconds. Today, that question would take weeks of manual surveys."
+
+### Scene 6: Close (30 sec)
+
+> **Say:** "What we showed is a focused POC — one scorecard, one action, one dashboard, five services. Production deployment would extend this to all 12,000 services across 10 hubs, with real-time Datadog and Snyk feeds, and CI/CD gating below Bronze."
+
+**Then switch back to slides for Expected Outcomes.**
+
+### If something breaks
+- Stay calm — don't apologize repeatedly
+- Show the dashboard — most resilient view
+- Say: "Let me show you the dashboard view instead — same story"
+- Worst case: return to slides and describe what they would see
 
 ---
 
-## Slide 12: Expected Outcomes (3 minutes)
+## Slide 12: Expected Outcomes (3 min)
 
 > "Here's what we'd expect to see within six months of rolling this out."
 
-**Key points to hit:**
+**Walk through the table:**
 
-- Walk through the table row by row. The "After Port" column represents realistic targets, not aspirational ones.
-- **Compliance 35% to 80%+**: Most services are Basic today because there's no visibility. Once developers can see their score, they fix gaps proactively.
-- **Review time 2-4 hours to 15 min**: The scorecard automates what a human reviewer does manually today.
-- **Platform team capacity 40% to <10%**: This is the capacity story — reclaimed engineering time that can go toward building new capabilities.
-- **50% incident reduction**: Services that meet Silver+ standards have monitoring and clean security scans — the top two causes of preventable incidents.
-- **Days to hours**: Self-service means no more waiting on platform team bandwidth.
+| Metric | Before | After |
+|--------|--------|-------|
+| Production readiness compliance | ~35% | 80%+ |
+| Manual review time per service | 2-4 hours | 15 min |
+| Platform team review capacity | 40% | <10% |
+| Incidents from readiness gaps | Baseline | 50% fewer |
+| Developer time-to-deploy | Days | Hours |
+
+**Key callouts:**
+- "Most services are Basic today because there's no visibility. Once developers can see their score, they fix gaps proactively. It's a behavior change."
+- "The platform team gets 30 percentage points of their week back — that becomes new platform capabilities."
+- "Services that meet Silver+ have monitoring and clean security scans — the top two causes of preventable incidents."
+
+**Closing line:** "Fewer incidents, faster deploys, reclaimed capacity. That's the ROI."
 
 **Transition:** "And this is just the starting point."
 
 ---
 
-## Slide 13: Extending the POC (2 minutes)
+## Slide 13: What's Next (2 min)
 
-> "What I showed today is a focused POC — a slice of the full solution. Here's how you'd extend it."
+> "What I showed today is a focused POC. Here's how you'd extend it."
 
-**Key points to hit:**
+**Phase 2 roadmap:**
+- **Kubernetes integration** — map clusters, namespaces, deployments per hub
+- **Snyk integration** — real-time vulnerability scoring in the scorecard
+- **Datadog integration** — auto-validate monitoring + alerting coverage
+- **CI/CD Gating** — block deploys below Bronze in GitHub Actions
+- **More Scorecards** — security, cost, documentation layered on top
+- **10-Hub Rollout** — hub-specific dashboards for regional leads
 
-- Kubernetes integration would map real cluster resources — not just services in a catalog, but actual running deployments, pods, namespaces.
-- Snyk and Datadog integrations would make scorecard rules dynamic — instead of manually setting hasMonitoring, Port would check Datadog directly.
-- Deployment gating is the enforcement layer — CI/CD pipelines check the scorecard level before allowing deployment to production.
-- You could expand to other scorecards beyond production readiness: security, cost, documentation.
-- Hub-specific dashboards would let regional leads see their own posture.
-
-**Transition:** "Thank you — I'd love to take your questions."
+**Transition:** "Thank you — happy to take questions."
 
 ---
 
 ## Slide 14: Q&A
 
-> "Thank you for your time. I'm happy to discuss any aspect of this — the use case, the technical implementation, or how this could be extended."
+> "Thank you. Happy to discuss any aspect — use case, technical implementation, or extensions."
 
 ---
 
-## Anticipated Questions & Answers
+## Anticipated Q&A
 
-### Q: "How long would a full implementation take?"
+### Q: How does this scale to 12,000 developers?
 
-> "For a team of 2-3 platform engineers, you could have the core setup (catalog + scorecard + dashboard) running in 2-3 weeks. The integrations are the variable — GitHub is quick, K8s and Snyk may take longer depending on their infrastructure. A phased rollout across hubs over 2-3 months would be realistic."
+> Port's catalog is designed for enterprise scale. Walmart Labs-sized orgs use Port at this scale today. RBAC scopes visibility by team and hub — developers only see their services, team leads see their team, leadership sees everything.
 
-### Q: "How does Port handle RBAC at Walmart's scale?"
+### Q: How long would a full Walmart rollout take?
 
-> "Port supports team-based permissions. You can scope visibility so developers only see their own services, team leads see their team's services, and leadership sees everything. This maps naturally to Walmart's hub structure."
+> A 2-3 person platform engineering team could have the core setup running in 2-3 weeks. The integrations are the variable — GitHub is quick, K8s and Snyk depend on their infrastructure. A phased rollout across the 10 hubs over 2-3 months would be realistic. Start with Bentonville, then roll out region by region.
 
-### Q: "What if different hubs need different standards?"
+### Q: What if different hubs need different standards?
 
-> "You can create multiple scorecards or customize rules per team. For example, the India hub might have additional compliance requirements. Port's model is flexible enough to handle variation while maintaining a baseline standard."
+> Port supports multiple scorecards per blueprint and customizable rules. India might add data residency rules. Europe might add GDPR. The Walmart baseline stays consistent with hub-specific scorecards layered on top.
 
-### Q: "How does this compare to Backstage?"
+### Q: Can the scorecard block deployments?
 
-> "Backstage is open-source and requires significant engineering investment to build and maintain — it's essentially a framework you build on. Port is a managed platform with native features like scorecards, self-service actions, and integrations out of the box. For an organization like Walmart that wants time-to-value, Port removes the build-and-maintain burden."
+> Not directly in Port — but Port exposes a public API. Add one step to your GitHub Actions or Jenkins pipeline that queries Port for the scorecard level. If below Bronze, the pipeline fails. Hard enforcement without changing Port itself.
 
-### Q: "Can the scorecard block deployments?"
+### Q: How does this compare to Backstage?
 
-> "Not directly in Port — but Port integrates with CI/CD systems. You can add a step in your GitHub Actions or Jenkins pipeline that queries the Port API to check a service's scorecard level. If it's below Bronze, the pipeline fails. This gives you enforcement without changing Port itself."
+> Backstage is a framework you build on — requires significant engineering investment to build features Port gives you out of the box, plus ongoing maintenance burden. Port is a managed platform with native scorecards, self-service actions, AI assistant, and 50+ integrations. For an org like Walmart that wants time-to-value, Port removes the build-and-maintain burden.
 
-### Q: "What's the cost impact?"
+### Q: What's the ROI?
 
-> "The ROI model centers on three things: reduced incident cost (even preventing one major incident during Black Friday pays for the platform), reclaimed platform team capacity (40% of their time back), and faster developer velocity. The platform practically pays for itself with one avoided outage."
+> Three layers: (1) Reduced incident cost — preventing one major incident during Black Friday pays for the platform. (2) Reclaimed platform team capacity — 40% of their time back. (3) Faster developer velocity — no more days-long waits for reviews. The platform pays for itself with one avoided outage.
+
+### Q: How could you extend the demo?
+
+> Phase 2 roadmap: Datadog integration auto-populates hasMonitoring. Snyk integration provides real-time vuln counts. K8s maps clusters per hub. CI/CD gating blocks deploys below Bronze. Additional scorecards for Security Readiness, Cost Optimization, Documentation Coverage. Hub-specific dashboards.
+
+### Closing note
+
+> Thank the audience genuinely. If asked for next steps, offer to share the GitHub repo: **github.com/KaylahBuilds/walmart-production-readiness-port**
+
+---
+
+## Pre-Presentation Checklist
+
+### 1 Hour Before
+- [ ] Open Port — verify dashboard loads
+- [ ] Verify all 5 services have correct properties
+- [ ] Reset `reviewRequested = false` on Search Service
+- [ ] Open slides on second screen
+- [ ] Charge laptop + bring charger
+
+### 5 Minutes Before
+- [ ] Close extra browser tabs
+- [ ] Silence notifications
+- [ ] Bring up the title slide
+- [ ] Deep breath
+
+### During the Demo
+- [ ] Speak slowly during transitions
+- [ ] Use the audience: "Questions on this part before I move on?"
+- [ ] If something breaks: stay calm, show the dashboard
+
+---
+
+## Files & Resources
+
+| File | Location |
+|------|----------|
+| Slide Deck | `/Users/kaylahgore/Desktop/Walmart_Production_Readiness_Presentation.pptx` |
+| Flowchart (image) | `flowchart/flowchart.png` (embedded in slide 7) |
+| Flowchart (HTML source) | `flowchart/flowchart.html` |
+| Port Configs | `port-config/` in this repo |
+| GitHub Repo | https://github.com/KaylahBuilds/walmart-production-readiness-port |
+| Port Portal | https://app.getport.io |
+
+### Walmart Demo Repos on GitHub
+
+- https://github.com/KaylahBuilds/checkout-service (Gold)
+- https://github.com/KaylahBuilds/inventory-api (Silver)
+- https://github.com/KaylahBuilds/notification-worker (Gold)
+- https://github.com/KaylahBuilds/payment-gateway (Basic)
+- https://github.com/KaylahBuilds/search-service (Basic)
+- https://github.com/KaylahBuilds/user-auth
